@@ -21,6 +21,10 @@ def studentInfo():
 def studentCourseProgram():
     return render_template("student_course_program.html")
 
+@app.route('/studentNote', methods =['GET', 'POST'])
+def studentNotes():
+    return render_template("student_notes.html")
+
 #TODO This will be use during issue #1.
 @app.route('/instructorInfo', methods =['GET', 'POST'])
 def instructorInfo():

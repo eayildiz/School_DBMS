@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Student Notes</title>
+        <link href="../static/navigation_bar.css" rel="stylesheet">
+        <script type="text/javascript">
+            function dynamicNoteStudent()
+            {
+                var table = document.getElementById('noteTable');
+                var test_array = ["course1", "note1", "course2", "note2", "course2", "note2", "course2", "note2"];
+                var string;
+                string = "<table>";
+                for(var i = 0; i < test_array.length; i++)
+                {
+                    string += "<tr>";
+                    string += "<td>" + test_array[i] + "</td>";
+                    i++;
+                    string += "<td>" + test_array[i] + "</td>";
+                    string += "</tr>";
+                }
+                string += "</table>";
+                table.innerHTML = string;
+            }
+        </script>
+        <noscript>Try another browser that supports Javascript.</noscript>
+    </head>
+    <body onload="dynamicNoteStudent();">
+        <!--Navigation Bar-->
+        <ul>
+            <li><a href="/studentInfo">Home</a></li>
+            <li><a href="/studentCourseProgram">Course Program</a></li>
+            <li><a class="active" href="/studentNote">Notes</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+        <!--Program-->
+        <p>Yama</p>
+        <div id="noteTable"></div>
+        <p>Deneme</p>
+
+    </body>
+
+
+</html>
