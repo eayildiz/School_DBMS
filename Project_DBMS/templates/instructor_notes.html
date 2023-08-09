@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Edit Notes</title>
+        <link href="../static/navigation_bar.css" rel="stylesheet">
+        <script>
+            function courseDropDownList()
+            {
+                var values = ["dog", "cat", "parrot", "rabbit"];
+                var select = document.createElement("select");
+                select.name = "pets";
+                select.id = "pets";
+                for (const val of values)
+                {
+                    var option = document.createElement("option");
+                    option.value = val;
+                    option.text = val.charAt(0).toUpperCase() + val.slice(1);
+                    select.appendChild(option);
+                }
+                var label = document.createElement("label");
+                label.innerHTML = "Choose your pets: ";
+                label.htmlFor = "pets";
+                
+                document.getElementById("courseDropDown").appendChild(label).appendChild(select);
+            }
+        </script>
+    </head>
+    <body onload="courseDropDownList()">
+        <!--Navigation Bar-->
+        <ul>
+            <li><a href="/instructorInfo">Home</a></li>
+            <li><a href="/instructorCourseProgram">Course Program</a></li>
+            <li><a class="active" href="/instructorNote">Note</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+        <p>Yama</p>
+        <div id="courseDropDown"></div>
+    </body>
+</html>

@@ -35,5 +35,9 @@ def instructorInfo():
 def instructorCourseProgram():
     return render_template("instructor_course_program.html")
 
+@app.route('/instructorNote', methods =['GET', 'POST'])
+def instructorNotes():
+    return render_template("instructor_notes.html")
+
 if __name__ == "__main__":
     app.run()
