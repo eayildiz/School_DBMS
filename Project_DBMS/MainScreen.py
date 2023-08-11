@@ -1,29 +1,46 @@
 from flask import Flask, render_template, request, redirect, url_for
+import pyodbc
+
 app = Flask(__name__)
 
 @app.route("/")
-def main():
+def main(err_message=""):
     return render_template("index.html")
 
 @app.route("/loginRedirect", methods=['POST'])
 def loginRedirect():
     username = request.form.get('username')
     password = request.form.get('password')
+    print('----------')
+    print(username)
+    print(password)
+    print('----')
+    try:
+        conn = pyodbc.connect(
+            'DRIVER={ODBC Driver 17 for SQL Server};'
+            'SERVER=lAPTOP-60KSG0K4;'  # Veritabanı sunucusunun adresini girin
+            'DATABASE=School_Database;'
+            'UID=emiralper;'  # Veritabanı kullanıcı adınızı girin
+            'PWD=5312143589'   # Veritabanı şifrenizi girin
+        )
+        cursor = conn.cursor()
+        # Bağlantı başarılı, devam edebilirsiniz
+        print('Bağlandi')
+    except pyodbc.Error as e:
+        print("Veritabanina bağlanilamadi:", e)
+        return "Veritabani hatasi, lütfen daha sonra tekrar deneyin."
 
-    # Veritabanına bağlan
-    conn = pyodbc.connect(
-        'DRIVER={ODBC Driver 17 for SQL Server};'
-        'SERVER=LAPTOP-60KSG0K4;'  # Veritabanı sunucusunun adresini girin
-        'DATABASE=School_Database;'
-        'UID=emiralper;'  # Veritabanı kullanıcı adınızı girin
-        'PWD=5312143589'   # Veritabanı şifrenizi girin
-    )
-    cursor = conn.cursor()
+
+    # İhtiyaca göre uygun bir hata yanıtı döndürebilirsiniz
+
 
     # Öğrenci tablosunda kontrol et
-    cursor.execute("SELECT Name FROM Student WHERE Student_ID = ? AND Password = ?", username, password)
+    cursor.execute("SELECT Name FROM Student WHERE Student_ID = ? AND Password = ?", (username, password))
     result = cursor.fetchone()
 
+    print('result')
+    print(result)
+    
     if result:
         name = result[0]
         return redirect(url_for("studentInfo"), name=name)
@@ -37,10 +54,10 @@ def loginRedirect():
         return redirect(url_for("instructorInfo"),  name=name)
 
     # Kullanıcı bulunamadı, hata mesajı göster
-    return "Kullanici adi veya şifre yanliş, lütfen tekrar deneyin."
+    return redirect(url_for("/"), err_message="Kullanici adi veya şifre yanliş, lütfen tekrar deneyin.")
 
-#TODO We need to distinguish instructor and student log in. We'll check this during implementation of log in and sign up functions.
-@app.route('/studentInf/<name>', methods =['GET', 'POST'])
+
+@app.route('/studentInfo/<name>', methods =['GET', 'POST'])
 def studentInfo(name):
     return render_template("student_general_info.html", name=name)
 
