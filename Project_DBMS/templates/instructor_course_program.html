@@ -1,139 +1,102 @@
 <!DOCTYPE html>
-
 <html>
     <head>
         <title>Course Program</title>
         <link href="../static/navigation_bar.css" rel="stylesheet">
+
+        <script>
+            function loadProgram() {
+                var table = document.getElementById('noteTable');
+
+                const test_array_str = "{{course_details_oneD|tojson|safe}}";
+
+                console.log("Test Array String:", test_array_str);
+                const test_array = JSON.parse(test_array_str);
+                console.log("Test Array String:", test_array);
+                
+
+                var course_namesHTML = "{{course_names}}";
+
+                const course_names_array = [];
+                var string_index = 0;
+                while(string_index < course_namesHTML.length)
+                {
+                    if(course_namesHTML[string_index] == ';')
+                    {
+                        string_index ++;
+                        var start_index = string_index;
+                        while(course_namesHTML[string_index] != '&' && string_index < course_namesHTML.length)
+                        {
+                            string_index++;
+                        }
+                        if(string_index < course_namesHTML.length)
+                        {
+                            console.log(course_namesHTML.substring(start_index, string_index));
+                            course_names_array.push(course_namesHTML.substring(start_index, string_index));
+                            string_index += 5;
+                        }
+                    }
+                    string_index++;
+                }
+
+                var string;
+                string = "<table border=\"1\" width=\"1250\" height=\"800\"> <tr> <th></th> <th>Monday</th> <th>Tuesday</th> <th>Wednesday</th> <th>Thursday</th> <th>Friday</th> <th>Saturday</th> <th>Sunday</th>";
+                var days = 0;
+                var hours = 8;
+                console.log(course_namesHTML);
+                for(var columns = 0; hours < 19;)
+                {
+                    if(columns == 0)
+                    {
+                        string += "<tr>";
+                        string += "<th>" + hours + ".00-" + hours+ ".50</th>";
+                        columns++;
+                    }
+                    else
+                    {
+                        var found = false;
+                        for(var i = 0, j = 0; i < test_array.length;)
+                        {
+                            if(test_array[i] == hours && test_array[i + 1] == days)
+                            {
+                                string += "<td>" + course_names_array[j] + "</td>";
+                                found = true;
+                                break;
+                            }
+                            i = i + 2;
+                            j++;
+                        }
+                        if(!found)
+                        {
+                            string += "<td></td>";
+                        }
+                        days = (days + 1) % 7;
+                        columns++;
+                        if(columns == 8) {
+                            string += "</tr>";
+                            hours++;
+                            columns = 0;
+                        }
+                    }
+                }
+                string += "</table>";
+                table.innerHTML = string;
+            }
+        </script>
     </head>
 
-    <body>
+    <body onload="loadProgram()">
         <!--Navigation Bar-->
-        <ul>
+        <ul class="navbar-list">
             <li><a href="/instructorInfo">Home</a></li>
             <li><a class="active" href="/instructorCourseProgram">Course Program</a></li>
             <li><a href="/instructorNote">Note</a></li>
-            <li><a href="#about">About</a></li>
+            <li><a href="/Instructor_Courses">Instructor Courses</a></li>
+            <li><a href="/logout">Logout</a></li>
         </ul>
-
+        </br>
         <!--Program-->
-        <style>
-            table{
-                table-layout: fixed;
-            }
-
-            body {margin: 50px;}
-        </style>
-        <table border="1" width="1250" height="800">
-            <tr>
-                <th></th>
-                <th>Sun</th>
-                <th>Mon</th>
-                <th>Tue</th>
-                <th>Wed</th>
-                <th>Thur</th>
-                <th>Fri</th>
-                <th>Sat</th>
-            </tr>
-            <tr>
-                <th>8.00-8.50</th>
-                <td>NULL</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <th>9.00-9.50</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <th>10.00-10.50</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <th>11.00-11.50</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <th>12.00-12.50</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <th>13.00-13.50</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <th>14.00-14.50</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <th>15.00-15.50</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <th>16.00-16.50</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <th>17.00-17.50</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </table>
+        <div id="noteTable"></div>
+        
     </body>
 </html>

@@ -10,22 +10,23 @@
 
     <!--Navigation Bar-->
     <div>
-      <ul>
+      <ul class="navbar-list">
         <li><a class="active" href="/instructorInfo">Home</a></li>
         <li><a href="/instructorCourseProgram">Course Program</a></li>
         <li><a href="/instructorNote">Note</a></li>
-        <li><a href="#about">About</a></li>
+        <li><a href="/Instructor_Courses">Instructor Courses</a></li>
+        <li><a href="/logout">Logout</a></li>
       </ul>
     </div>
-
+    
     <div class="student-profile py-4">
       <div class="container">
         <div class="row">
           <div class="col-lg-4">
             <div class="card shadow-sm">
               <div class="card-header bg-transparent text-center">
-                <h3>Yama</h3>
-                <h3>NULL(Instructor name)</h3>
+              </br>
+                <h3>{{name}}</h3>
               </div>
             </div>
           </div>
@@ -39,17 +40,17 @@
                   <tr>
                     <th width="30%">Instructor ID</th>
                     <td width="2%">:</td>
-                    <td>NULL</td>
+                    <td>{{instructor_id}}</td>
                   </tr>
                   <tr>
                     <th width="30%">E-mail</th>
                     <td width="2%">:</td>
-                    <td>NULL</td>
+                    <td>{{email}}</td>
                   </tr>
                   <tr>
                     <th width="30%">Office No</th>
                     <td width="2%">:</td>
-                    <td>NULL</td>
+                    <td>{{office_no}}</td>
                   </tr>
                 </table>
               </div>

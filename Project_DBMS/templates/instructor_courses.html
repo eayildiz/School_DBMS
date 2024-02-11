@@ -1,35 +1,34 @@
+
 <!DOCTYPE html>
 
 <html>
     <head>
-        <title>Student Notes</title>
+        <title>Instructor Exams</title>
         <link href="../static/navigation_bar.css" rel="stylesheet">
         <noscript>Try another browser that supports Javascript.</noscript>
     </head>
     <body>
         <!--Navigation Bar-->
         <ul class="navbar-list">
-            <li><a href="/studentInfo">Home</a></li>
-            <li><a href="/studentCourseProgram">Course Program</a></li>
-            <li><a class="active" href="/studentNote">Notes</a></li>
-            <li><a href="/sCourseSelection">Course Selection</a></li>
-            <li> <a href="/studentExams">Exam Dates</a></li>
+            <li><a href="/instructorInfo">Home</a></li>
+            <li><a href="/instructorCourseProgram">Course Program</a></li>
+            <li><a href="/instructorNote">Note</a></li>
+            <li><a class="active" href="/Instructor_Courses">Instructor Courses</a></li>
             <li><a href="/logout">Logout</a></li>
         </ul>
         <!--Program-->
-        </br>
         <table>
             <thead>
                 <tr>
-                    <th>Course</th>
-                    <th>Note</th>
+                    <th>Exams</th>
+                    <th>Dates</th>
                 </tr>
             </thead>
             <tbody>
-                {% for course, note in courses_and_notes %}
+                {% for exam, date in exams_and_dates %}
                 <tr>
-                    <td>{{ course }}</td>
-                    <td>{{ note }}</td>
+                    <td>{{ exam }}</td>
+                    <td>{{ date }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

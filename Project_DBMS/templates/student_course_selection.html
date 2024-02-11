@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dropdown Selection</title>
+    <link href="../static/navigation_bar.css" rel="stylesheet">
+    <script>
+    function addItem() {
+        var dropdown = document.getElementById("avaiable_courses");
+        var selectedItem = dropdown.options[dropdown.selectedIndex].value;
+
+        var ul = document.getElementById("selectedItems");
+        var items = ul.getElementsByTagName("li");
+
+        let exists = false;
+        for (let i = 0; i < items.length; i++) {
+            if (items[i].textContent.replace("Delete", "") === selectedItem) {
+                exists = true;
+            }
+        }
+
+        if (!exists) {
+            var li = document.createElement("li");
+            li.appendChild(document.createTextNode(selectedItem));
+
+            let deleteButton = document.createElement("span");
+            deleteButton.style.marginLeft = "10px";
+            deleteButton.style.color = "red";
+            deleteButton.style.cursor = "pointer";
+
+            // Add a click event to confirm deletion and then remove the item
+            deleteButton.addEventListener("click", function() {
+                if (confirm("Are you sure you want to delete this course?")) {
+                    li.remove();
+                }
+            });
+
+            deleteButton.innerHTML = "Delete";
+            li.appendChild(deleteButton);
+            ul.appendChild(li);
+        }
+        window.scrollTo(0, document.body.scrollHeight); 
+
+    }
+
+    function removeItem() {
+        var dropdown = document.getElementById("avaiable_courses");
+        var selectedItem = dropdown.options[dropdown.selectedIndex].value;
+
+        var ul = document.getElementById("selectedItems");
+        var items = ul.getElementsByTagName("li");
+
+        for (let i = 0; i < items.length; i++) {
+            if (items[i].textContent.replace("Delete", "") === selectedItem) {
+                items[i].remove();
+            }
+        }
+    }
+
+    function submitCourses() {
+    var ul = document.getElementById("selectedItems");
+    var items = ul.getElementsByTagName("li");
+
+    var courses = [];
+    for (let i = 0; i < items.length; i++) {
+        courses.push(items[i].textContent.replace("Delete", ""));
+    }
+
+    // Şimdi bu kursları veritabanına ekleyebilirsiniz
+    // Bu kısmı AJAX veya form kullanarak yapabilirsiniz
+    showConfirmationModal(); // Onay modali göster
+    }
+
+    function showConfirmationModal() {
+        document.getElementById('confirmationModal').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('confirmationModal').style.display = 'none';
+    }
+
+    function confirmCourses() {
+        var ul = document.getElementById("selectedItems");
+        var items = ul.getElementsByTagName("li");
+
+        var courses = [];
+        for (let i = 0; i < items.length; i++) {
+            courses.push(items[i].textContent.replace("Delete", ""));
+        }
+
+        fetch('/add_courses', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                courses: courses
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);  // Kullanıcıya bir mesaj gösterin
+            closeModal();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+
+
+    </script>
+</head>
+
+<body>
+<ul class="navbar-list">
+    <li> <a href="/studentInfo">Home</a></li>
+    <li> <a href="/studentCourseProgram">Course Program</a></li>
+    <li> <a href="/studentNote">Notes</a></li>
+    <li> <a class="active" href="/sCourseSelection">Course Selection</a></li>
+    <li> <a href="/studentExams">Exam Dates</a></li>
+    <li><a href="/logout">Logout</a></li>
+</ul>
+    </br>
+
+    <!-- Burada direkt olarak dropdown listeyi oluşturun -->
+    <select id="avaiable_courses">
+        {% for course in available_courses %}
+        <option value="{{ course[0] }}">{{ course[1] }}</option>
+        {% endfor %}
+    </select>
+
+    <button onclick="addItem()">Add</button>
+    <button onclick="removeItem()">Remove</button>
+    <button onclick="submitCourses()">Courses Confirmation</button>
+
+
+    <h2>Selected Courses:</h2>
+    <ul id="selectedItems">
+        <!-- Items will be added here -->
+    </ul>
+
+    <div id="confirmationModal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);z-index:1000;background-color:#fff;padding:20px;border:1px solid #ccc;">
+        <p>Kaydı onaylıyor musunuz? Seçtiğiniz dersleri tekrardan silemezsiniz.</p>
+        <button onclick="confirmCourses()">Onayla</button>
+        <button onclick="closeModal()">İptal</button>
+    </div>
+
+</body>
+
+</html>
+

@@ -1,0 +1,128 @@
+
+CREATE TABLE Faculties (
+    Faculty_ID INT PRIMARY KEY,
+    Faculty_Name VARCHAR(255),
+    Established_Date DATE,
+    E_Mail VARCHAR(255)
+);
+
+CREATE TABLE Departments (
+    Departments_ID INT PRIMARY KEY,
+    E_Mail VARCHAR(255),
+    Dean VARCHAR(255),
+    F_ID INT REFERENCES Faculties(Faculty_ID)
+);
+
+CREATE TABLE Student (
+    Student_ID INT PRIMARY KEY,
+    Name VARCHAR(255),
+    E_mail VARCHAR(255),
+    Grade INT,
+    Gender CHAR(1),
+    GNO DECIMAL(4,2),
+    Active_Status BIT,
+    Register_Date DATE,
+    Password VARCHAR(255),
+    D_ID INT REFERENCES Departments(Departments_ID)
+);
+
+
+CREATE TABLE Students_Clubs (
+    Club_ID INT PRIMARY KEY,
+    Club_Name VARCHAR(255)
+);
+
+CREATE TABLE Student_Joins_Club (
+    S_ID INT REFERENCES Student(Student_ID),
+    C_ID INT REFERENCES Students_Clubs(Club_ID),
+    Is_Admin BIT,
+    PRIMARY KEY (S_ID, C_ID)
+);
+
+
+CREATE TABLE Course (
+    Course_ID INT PRIMARY KEY,
+    Course_Name VARCHAR(255),
+    Term VARCHAR(50),
+    Credit INT,
+    Section VARCHAR(50),
+    Days INT,
+    D_ID INT REFERENCES Departments(Departments_ID)
+);
+
+CREATE TABLE Students_Enrolls_Course (
+    S_ID INT REFERENCES Student(Student_ID),
+    C_ID INT REFERENCES Course(Course_ID),
+    PRIMARY KEY (S_ID, C_ID)
+);
+
+
+CREATE TABLE Prerequisites (
+    Dependent_Course_ID INT REFERENCES Course(Course_ID),
+    Prerequisite_Course_ID INT REFERENCES Course(Course_ID),
+    PRIMARY KEY (Dependent_Course_ID, Prerequisite_Course_ID)
+);
+
+CREATE TABLE Days_Of_Course (
+    Course_ID INT REFERENCES Course(Course_ID),
+    Day INT,
+    Hour INT,
+    PRIMARY KEY (Course_ID, Day)
+);
+
+-- Instructor table
+CREATE TABLE Instructor (
+    Teaching_ID INT PRIMARY KEY,
+    Name VARCHAR(255),
+    Salary DECIMAL(10,2),
+    Office_Number VARCHAR(50),
+    Password VARCHAR(255),
+    E_Mail VARCHAR(255),
+    D_ID INT REFERENCES Departments(Departments_ID)
+);
+
+CREATE TABLE Instructor_Gives_Courses (
+    I_ID INT REFERENCES Instructor(Teaching_ID),
+    C_ID INT REFERENCES Course(Course_ID),
+    PRIMARY KEY (I_ID, C_ID)
+);
+
+CREATE TABLE Exam_Dates (
+    Course_ID INT REFERENCES Course(Course_ID),
+    Exam_No INT,
+    Date_and_Hour DATETIME,
+    Place VARCHAR(255),
+    Exam_Duration INT,
+    PRIMARY KEY (Course_ID, Exam_No, Date_and_Hour)
+);
+
+CREATE TABLE Instructor_Creates_Exams (
+    I_ID INT REFERENCES Instructor(Teaching_ID),
+    C_ID INT REFERENCES Course(Course_ID),
+    Exam_No INT,
+    Date_and_Hour DATETIME,
+    FOREIGN KEY (C_ID, Exam_No, Date_and_Hour) REFERENCES Exam_Dates(Course_ID, Exam_No, Date_and_Hour),
+    PRIMARY KEY (I_ID, C_ID, Exam_No, Date_and_Hour)
+);
+
+
+CREATE TABLE Instructor_Grades_Grades (
+    I_ID INT REFERENCES Instructor(Teaching_ID),
+    Students_ID INT REFERENCES Student(Student_ID),
+    Course_ID INT REFERENCES Course(Course_ID),
+    PRIMARY KEY (I_ID, Students_ID, Course_ID)
+);
+
+CREATE TABLE Students_Grade (
+    Students_ID INT REFERENCES Student(Student_ID),
+    Course_ID INT REFERENCES Course(Course_ID),
+    Grade DECIMAL(5,2),
+    PRIMARY KEY (Students_ID, Course_ID)
+);
+
+
+CREATE TABLE Instructor_Research_Topic (
+    Research_ID INT PRIMARY KEY,
+    Research_Field_Topic VARCHAR(255),
+    Instructor_ID INT REFERENCES Instructor(Teaching_ID)
+);

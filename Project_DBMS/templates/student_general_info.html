@@ -8,11 +8,13 @@
   </head>
 
   <body>
-    <ul>
+    <ul class="navbar-list">
       <li><a class="active" href="/studentInfo">Home</a></li>
-      <li><a href="./studentCourseProgram">Course Program</a></li>
+      <li><a href="/studentCourseProgram">Course Program</a></li>
       <li><a href="/studentNote">Notes</a></li>
-      <li><a href="#about">About</a></li>
+      <li><a href="/sCourseSelection">Course Selection</a></li>
+      <li> <a href="/studentExams">Exam Dates</a></li>
+      <li><a href="/logout">Logout</a></li>
     </ul>
 
     <div class="student-profile py-4">
@@ -21,8 +23,8 @@
           <div class="col-lg-4">
             <div class="card shadow-sm">
               <div class="card-header bg-transparent text-center">
-                <h3>Yama</h3>
-                <h3>NULL(Student name)</h3>
+                </br>
+                <h3>{{name}}</h3>
               </div>
             </div>
           </div>
@@ -36,32 +38,32 @@
                   <tr>
                     <th width="30%">Student ID</th>
                     <td width="2%">:</td>
-                    <td>NULL</td>
+                    <td>{{studentID}}</td>
                   </tr>
                   <tr>
                     <th width="30%">E-mail</th>
                     <td width="2%">:</td>
-                    <td>NULL</td>
+                    <td>{{email}}</td>
                   </tr>
                   <tr>
                     <th width="30%">Grade</th>
                     <td width="2%">:</td>
-                    <td>NULL</td>
+                    <td>{{grade}}</td>
                   </tr>
                   <tr>
                     <th width="30%">GNO</th>
                     <td width="2%">:</td>
-                    <td>NULL</td>
+                    <td>{{GNO}}</td>
                   </tr>
                   <tr>
                     <th width="30%">Active Status</th>
                     <td width="2%">:</td>
-                    <td>NULL</td>
+                    <td>{{activeStat}}</td>
                   </tr>
                   <tr>
                     <th width="30%">Registeration Year</th>
                     <td width="2%">:</td>
-                    <td>NULL</td>
+                    <td>{{regYear}}</td>
                   </tr>
                 </table>
               </div>
